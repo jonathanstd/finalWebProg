@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camera Rental</title>
+<style>
+  .navbar {
+    /*background-color: #4CAF50; /* Green */
+    overflow: hidden;
+  }
+  
+  .navbar a {
+    float: left;
+    display: block;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+  }
+
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgb(154, 156, 154);
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .login, .cart {
+    float: right;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  .gear-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .gear {
+    border: solid 1px #ddd;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    width: calc(33.333% - 20px); /* Adjust width here to control how many items per row */
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .gear {
+      width: calc(50% - 20px); /* 2 items per row on smaller screens */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gear {
+      width: 100%; /* 1 item per row on very small screens */
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="dropdown">
+    <button class="dropbtn">Camera</button>
+    <div class="dropdown-content">
+      <a href="/camera-rental/canoncam">Canon</a>
+      <a href="/camera-rental/sonycam">Sony</a>
+    </div>
+  </div> 
+  <div class="dropdown">
+    <button class="dropbtn">Lenses</button>
+    <div class="dropdown-content">
+      <a href="/camera-rental/canonlens">Canon</a>
+      <a href="/camera-rental/sonylens">Sony</a>
+    </div>
+  </div> 
+  <div class="login">
+    <a href="/camera-rental/account">Login or create account</a>
+  </div>
+  <div class="cart">
+    <a href="/camera-rental/cart">Cart</a>
+  </div>
+</div>
+
+<div class="container">
+    <h2>New Gear!!!!!</h2>
+    <div class="gear-container">
+      <div class="gear">##Space for new gear image</div>
+      <div class="gear">##Space for new gear image</div>
+      <div class="gear">##Space for new gear image</div>
+    </div>
+  </div>
+
+<script>
+  // JavaScript to change login/create account link if user is logged in
+  // This is pseudo-code and would be replaced with actual logic based on your authentication system.
+  if (userIsLoggedIn) {
+    document.querySelector('.login a').textContent = 'Hello, Kevin!';
+    document.querySelector('.login a').href = '/user';
+  }
+</script>
+
+</body>
+</html>

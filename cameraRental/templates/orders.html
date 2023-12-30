@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order - Camera Rental</title>
+<link rel="stylesheet" href="path_to_your_stylesheet.css">
+<!-- Add your existing CSS for navbar here -->
+<style>
+/*navbar*/
+.navbar {
+    background-color: #4CAF50; /* Green */
+    overflow: hidden;
+  }
+  
+  .navbar a, .dropbtn {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    background-color: #4CAF50; /* Green */
+  }
+
+  .navbar a:hover, .dropbtn:hover {
+    background-color: darkgreen;
+  }
+  
+  .navbar .login, .navbar .cart {
+    float: right;
+  }
+
+  .shop-name {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .shop-name:hover {
+    background-color: rgb(123, 123, 123);
+  }
+
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgb(154, 156, 154);
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  /*end of navbar*/
+
+/* Styles for order table */
+.order-table-container {
+  margin-top: 20px;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-table th, .order-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.order-table th {
+  background-color: #f2f2f2;
+  color: black;
+  text-align: left;
+}
+
+.order-table td {
+  text-align: center;
+}
+
+/* Additional styles for buttons and containers */
+/* ... */
+</style>
+</head>
+<body>
+
+    <div class="shopname">
+        <div class="shop-name" onclick="location.href='/'">My Camera Rent Web Name</div>
+    
+      <div class="navbar">
+        <div class="dropdown">
+          <button class="dropbtn">Camera</button>
+          <div class="dropdown-content">
+            <a href="/camera-rental/canoncam">Canon</a>
+            <a href="/camera-rental/sonycam">Sony</a>
+          </div>
+        </div> 
+        <div class="dropdown">
+          <button class="dropbtn">Lenses</button>
+          <div class="dropdown-content">
+            <a href="/camera-rental/canonlens">Canon</a>
+            <a href="/camera-rental/sonylens">Sony</a>
+          </div>
+        </div> 
+        <div class="login">
+          <a href="/camera-rental/account">Login or create account</a>
+        </div>
+        <div class="cart">
+          <a href="/camera-rental/cart">Cart</a>
+        </div>
+      </div>
+
+<div class="order-table-container">
+  <table class="order-table">
+    <thead>
+      <tr>
+        <th>Gear Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Rent Date</th>
+        <th>Return Date</th>
+      </tr>
+    </thead>
+    <tbody id="orderItems">
+      <!-- Order items will be inserted here using JavaScript -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Additional HTML -->
+
+<script>
+// JavaScript to dynamically insert order items into the table
+// Replace this with the actual logic to fetch order data
+function loadOrderItems() {
+  const orderItems = [
+    { gearName: 'R5', quantity: 1, price: '1,300', rentDate: '12-26-2023', returnDate: '12-27-2023' },
+    { gearName: 'A7r5', quantity: 2, price: '1,500', rentDate: '12-26-2023', returnDate: '12-27-2023' },
+    // ... add more items as needed
+  ];
+
+  const tableBody = document.getElementById('orderItems');
+  tableBody.innerHTML = orderItems.map(item => `
+    <tr>
+      <td>${item.gearName}</td>
+      <td>${item.quantity}</td>
+      <td>${item.price}</td>
+      <td>${item.rentDate}</td>
+      <td>${item.returnDate}</td>
+    </tr>
+  `).join('');
+}
+
+// Call the function to load items on page load
+document.addEventListener('DOMContentLoaded', loadOrderItems);
+</script>
+
+</body>
+</html>

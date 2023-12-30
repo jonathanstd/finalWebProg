@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart - Camera Rental</title>
+<link rel="stylesheet" href="/path_to_your_css_file.css"> <!-- Link your existing CSS file here -->
+<style>
+/*navbar*/
+  .navbar {
+    background-color: #4CAF50; /* Green */
+    overflow: hidden;
+  }
+  
+  .navbar a, .dropbtn {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    background-color: #4CAF50; /* Green */
+  }
+
+  .navbar a:hover, .dropbtn:hover {
+    background-color: darkgreen;
+  }
+  
+  .navbar .login, .navbar .cart {
+    float: right;
+  }
+
+  .shop-name {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .shop-name:hover {
+    background-color: rgb(123, 123, 123);
+  }
+
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgb(154, 156, 154);
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  /*end of navbar*/
+
+  .date-time-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .date-time-box {
+    padding: 10px;
+    margin: 0 5px;
+    background-color: orange;
+    /* Additional styling */
+  }
+
+  .days-count {
+    padding: 10px;
+    background-color: purple;
+    color: white;
+    /* Additional styling */
+  }
+
+  .cart-item {
+    background-color: #f0f0f0; /* Light grey background */
+    padding: 10px;
+    margin-bottom: 10px;
+    /* Additional styling */
+  }
+
+  .delete-button {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    /* Additional styling */
+  }
+
+  .delete-button:hover {
+    background-color: #98fb98; /* Lighter green */
+  }
+
+  .total-price {
+    background-color: purple;
+    color: white;
+    padding: 10px;
+    /* Additional styling */
+  }
+
+  .submit-button {
+    background-color: green;
+    color: white;
+    padding: 20px;
+    cursor: pointer;
+    /* Additional styling */
+  }
+
+  .submit-button:hover {
+    background-color: #98fb98; /* Lighter green */
+  }
+
+  /* ... Any additional custom styles ... */
+</style>
+</head>
+<body>
+    <div class="shopname">
+        <div class="shop-name" onclick="location.href='/'">My Camera Rent Web Name</div>
+    
+      <div class="navbar">
+        <div class="dropdown">
+          <button class="dropbtn">Camera</button>
+          <div class="dropdown-content">
+            <a href="/camera-rental/canoncam">Canon</a>
+            <a href="/camera-rental/sonycam">Sony</a>
+          </div>
+        </div> 
+        <div class="dropdown">
+          <button class="dropbtn">Lenses</button>
+          <div class="dropdown-content">
+            <a href="/camera-rental/canonlens">Canon</a>
+            <a href="/camera-rental/sonylens">Sony</a>
+          </div>
+        </div> 
+        <div class="login">
+          <a href="/camera-rental/account">Login or create account</a>
+        </div>
+        <div class="cart">
+          <a href="/camera-rental/cart">Cart</a>
+        </div>
+      </div>
+
+  <div class="date-time-container">
+    <div class="date-time-box">
+      Rent date <input type="date" id="rentDate">
+      <select id="rentTime">
+        <option value="session1">Session 1 (9AM-3PM)</option>
+        <option value="session2">Session 2 (3PM-9PM)</option>
+      </select>
+    </div>
+    <div class="date-time-box">
+      Return date <input type="date" id="returnDate">
+      <select id="returnTime">
+        <option value="session1">Session 1 (9AM-3PM)</option>
+        <option value="session2">Session 2 (3PM-9PM)</option>
+      </select>
+    </div>
+    <div class="days-count">
+      Days count <span id="daysCount">1.5 days (example)</span>
+    </div>
+  </div>
+
+ 
+  <div id="cartItemsContainer">
+    <div class="cart-item">
+        <button class="delete-button" onclick="deleteItem(this)">delete</button>
+        Gear name: R5 <br>
+        Quantity: <input type="number" value="${productDetails.quantity}" min="1" onchange="updateQuantity('${productName}', this.value)"><br>
+        Price: ¥1,300
+      </div>
+  </div>
+  
+  <!-- Repeat for other cart items -->
+
+  <div class="total-price">
+    Total Price <span id="totalPrice">Total Price</span>
+  </div>
+
+  <button class="submit-button" onclick="submitOrder()">SUBMIT</button>
+
+  <script>
+    // Function to load and display the cart items
+    function loadCartItems() {
+      const cartItemsContainer = document.getElementById('cartItemsContainer');
+      const cart = JSON.parse(localStorage.getItem('cart')) || {};
+      cartItemsContainer.innerHTML = '';
+  
+      Object.entries(cart).forEach(([productName, productDetails]) => {
+        const cartItemHtml = `
+          <div class="cart-item">
+            <button class="delete-button" onclick="deleteItem('${productName}')">delete</button>
+            Gear name: ${productName} <br>
+            Quantity: <input type="number" value="${productDetails.quantity}" min="1" onchange="updateQuantity('${productName}', this.value)">
+            <br>
+            Price: ¥${productDetails.price * productDetails.quantity}
+          </div>
+        `;
+        cartItemsContainer.innerHTML += cartItemHtml;
+      });
+    }
+  
+    // Function to delete an item from the cart
+    function deleteItem(productName) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || {};
+      if (cart.hasOwnProperty(productName)) {
+        delete cart[productName];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCartItems();
+      }
+    }
+  
+    // Function to update the quantity of a cart item
+    function updateQuantity(productName, quantity) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || {};
+      if (cart.hasOwnProperty(productName) && Number(quantity) >= 1) {
+        cart[productName].quantity = Number(quantity);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCartItems(); // Refresh the cart display
+      }
+    }
+  
+    // Function to submit the order
+    function submitOrder() {
+      // Here, you would typically send the cart data to the server
+      // For the purpose of this example, we'll just redirect to an order confirmation page
+      location.href = '/camera-rental/orders/';
+    }
+  
+    // Function to calculate the days count based on selections
+    function calculateDays() {
+      // Placeholder for your calculation logic
+      const rentDate = new Date(document.getElementById('rentDate').value);
+      const returnDate = new Date(document.getElementById('returnDate').value);
+      const timeDiff = returnDate.getTime() - rentDate.getTime();
+      const daysCount = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      document.getElementById('daysCount').textContent = daysCount + ' days';
+    }
+  
+    // Add event listeners for the date and time inputs
+    document.getElementById('rentDate').addEventListener('change', calculateDays);
+    document.getElementById('rentTime').addEventListener('change', calculateDays);
+    document.getElementById('returnDate').addEventListener('change', calculateDays);
+    document.getElementById('returnTime').addEventListener('change', calculateDays);
+  
+    // Load the cart items when the page is fully loaded
+    window.addEventListener('DOMContentLoaded', loadCartItems);
+  </script>
+    
+
+</body>
+</html>

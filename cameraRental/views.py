@@ -1,4 +1,5 @@
 import contextlib
+import json
 from django.shortcuts import render, redirect
 from .models import Product, models
 from django.http import JsonResponse
@@ -8,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from .models import UserProfile
 from django.contrib import messages
+from .models import Order
 
 def register(request):
     if request.method == 'POST':
@@ -156,4 +158,43 @@ def member_view(request):
         return render(request, 'member.html')
 
 def orders_view(request):
-    return render(request, 'orders.html')
+    # Query your orders data here, for example:
+    user_orders = Order.objects.filter(user=request.user)
+
+    context = {'user_orders': user_orders}
+    return render(request, 'orders.html', context)
+
+def create_order(request):
+    if request.method == 'POST':
+        # Extract order data from the request
+        items = request.POST.getlist('items[]')  # This depends on your form data structure
+        total_price = request.POST.get('total_price')
+
+        try:
+            # Create a new order instance and save it to the database
+            order = Order.objects.create(total_price=total_price)
+
+            # Loop through the submitted items and create order items
+            for item in items:
+                # Parse the item data, assuming it's in JSON format
+                item_data = json.loads(item)
+                product_name = item_data.get('name')
+                quantity = item_data.get('quantity')
+                price = item_data.get('price')
+
+                # Create an order item and associate it with the order
+                order_item = OrderItem.objects.create(
+                    order=order,
+                    product_name=product_name,
+                    quantity=quantity,
+                    price=price
+                )
+
+            # Return a JSON response indicating success
+            response_data = {'success': True, 'message': 'Order created successfully'}
+            return JsonResponse(response_data)
+
+        except Exception as e:
+            # Handle any errors that may occur during order creation
+            response_data = {'success': False, 'message': str(e)}
+            return JsonResponse(response_data, status=400)

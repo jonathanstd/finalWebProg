@@ -154,18 +154,28 @@
 <div class="order-table-container">
   <table class="order-table">
     <thead>
-      <tr>
-        <th>Gear Name</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Rent Date</th>
-        <th>Return Date</th>
-      </tr>
+        <tr>
+            <th>Order Date</th>
+            <th>Order Items</th>
+            <th>Total Price</th>
+        </tr>
     </thead>
-    <tbody id="orderItems">
-      <!-- Order items will be inserted here using JavaScript -->
-    </tbody>
-  </table>
+    <tbody>
+      {% for order in user_orders %}
+          <tr>
+              <td>{{ order.order_date }}</td>
+              <td>
+                  <ul>
+                      {% for item in order.orderitem_set.all %}
+                          <li>{{ item.product.name }} (Qty: {{ item.quantity }})</li>
+                      {% endfor %}
+                  </ul>
+              </td>
+              <td>{{ order.total_price }}</td>
+          </tr>
+      {% endfor %}
+  </tbody>
+</table>
 </div>
 
 <!-- Additional HTML -->

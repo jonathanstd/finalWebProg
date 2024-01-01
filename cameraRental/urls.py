@@ -13,6 +13,7 @@ urlpatterns = [
     path('account/', views.account_view, name='account'),
     path('member/', views.member_view, name='member'),
     path('orders/', views.orders_view, name='orders'),
+    path('create_order/', views.create_order, name='create_order'),
     
     # Add more URL patterns for other views here
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

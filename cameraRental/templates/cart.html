@@ -7,39 +7,19 @@
 <link rel="stylesheet" href="/path_to_your_css_file.css"> <!-- Link your existing CSS file here -->
 <style>
 /*navbar*/
-  .navbar {
-    background-color: #4CAF50; /* Green */
+.navbar {
+    background-color: #000459;
     overflow: hidden;
+    border-radius: 0.5em;
   }
   
-  .navbar a, .dropbtn {
+  .navbar a {
     float: left;
     display: block;
-    color: white;
+    color: rgb(255, 255, 255);
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-    background-color: #4CAF50; /* Green */
-  }
-
-  .navbar a:hover, .dropbtn:hover {
-    background-color: darkgreen;
-  }
-  
-  .navbar .login, .navbar .cart {
-    float: right;
-  }
-
-  .shop-name {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    padding: 10px 20px;
-    cursor: pointer;
-    text-align: center;
-  }
-
-  .shop-name:hover {
-    background-color: rgb(123, 123, 123);
   }
 
   .dropdown {
@@ -52,7 +32,7 @@
     font-size: 16px;    
     border: none;
     outline: none;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     padding: 14px 16px;
     background-color: inherit;
     font-family: inherit;
@@ -88,6 +68,31 @@
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+  .shop-name {
+  background-color: white;
+  color: black;
+  border-radius: 0.5em;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid black;
+  box-shadow: 0 0 0 0 black;
+  text-align: center;
+  font-family: 'Poppins';
+  }
+
+  .shop-name:hover:hover {
+  transform: translateY(-1px) ;
+  box-shadow: 2px 3px 0 0 black;
+};
+
+.shop-name:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+};
 
   /*end of navbar*/
 
@@ -151,6 +156,8 @@
 
   /* ... Any additional custom styles ... */
 </style>
+
+
 </head>
 <body>
     <div class="shopname">
@@ -177,7 +184,7 @@
         <div class="cart">
           <a href="/camera-rental/cart">Cart</a>
         </div>
-      </div>
+  </div>
 
   <div class="date-time-container">
     <div class="date-time-box">
@@ -220,23 +227,22 @@
   <script>
     // Function to load and display the cart items
     function loadCartItems() {
-      const cartItemsContainer = document.getElementById('cartItemsContainer');
-      const cart = JSON.parse(localStorage.getItem('cart')) || {};
-      cartItemsContainer.innerHTML = '';
-  
-      Object.entries(cart).forEach(([productName, productDetails]) => {
-        const cartItemHtml = `
-          <div class="cart-item">
-            <button class="delete-button" onclick="deleteItem('${productName}')">delete</button>
-            Gear name: ${productName} <br>
-            Quantity: <input type="number" value="${productDetails.quantity}" min="1" onchange="updateQuantity('${productName}', this.value)">
-            <br>
-            Price: ¥${productDetails.price * productDetails.quantity}
-          </div>
-        `;
-        cartItemsContainer.innerHTML += cartItemHtml;
-      });
-    }
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cart = JSON.parse('{{ cart|escapejs }}');
+    cartItemsContainer.innerHTML = '';
+
+    Object.entries(cart).forEach(([productName, productDetails]) => {
+      const cartItemHtml = `
+        <div class="cart-item">
+          <button class="delete-button" onclick="deleteItem('${productName}')">delete</button>
+          Gear name: ${productName} <br>
+          Quantity: ${productDetails.quantity} <br>
+          Price: ¥${productDetails.price}
+        </div>
+      `;
+      cartItemsContainer.innerHTML += cartItemHtml;
+    });
+  }
   
     // Function to delete an item from the cart
     function deleteItem(productName) {
@@ -260,10 +266,37 @@
   
     // Function to submit the order
     function submitOrder() {
-      // Here, you would typically send the cart data to the server
-      // For the purpose of this example, we'll just redirect to an order confirmation page
-      location.href = '/camera-rental/orders/';
-    }
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+    // Create an order object to send to the server
+    const orderData = {
+        items: Object.keys(cart).map(productName => ({
+            name: productName,
+            quantity: cart[productName].quantity,
+            price: cart[productName].price
+        })),
+        total_price: calculateTotalPrice(cart),
+    };
+
+    // Send the order data to the server using a POST request
+    fetch('/create_order/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Redirect to the order confirmation page or handle as needed
+            location.href = '/camera-rental/orders/';
+        } else {
+            // Handle any errors from the server
+            alert('Error submitting the order. Please try again.');
+        }
+    });
+}
   
     // Function to calculate the days count based on selections
     function calculateDays() {

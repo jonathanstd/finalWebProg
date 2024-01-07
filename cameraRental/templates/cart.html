@@ -259,20 +259,70 @@ margin: 10px;
     function loadCartItems() {
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    let totalPrice = 0;
+    let daysCount = calculateDaysCount();
+
     cartItemsContainer.innerHTML = '';
 
     Object.entries(cart).forEach(([productName, productDetails]) => {
-      const cartItemHtml = `
-        <div class="cart-item">
-          <button class="delete-button" onclick="deleteItem('${productName}')">delete</button>
-          Gear name: ${productName} <br>
-          Quantity: ${productDetails.quantity} <br>
-          Price: NTD${productDetails.price}
-        </div>
-      `;
-      cartItemsContainer.innerHTML += cartItemHtml;
+        let itemTotalPrice = productDetails.quantity * productDetails.price * daysCount;
+        totalPrice += itemTotalPrice;
+
+        const cartItemHtml = `
+            <div class="cart-item">
+                <button class="delete-button" onclick="deleteItem('${productName}')">delete</button>
+                Gear name: ${productName} <br>
+                Quantity: ${productDetails.quantity} <br>
+                Price: NTD${productDetails.price} <br>
+                Total: NTD${itemTotalPrice}
+            </div>
+        `;
+        cartItemsContainer.innerHTML += cartItemHtml;
     });
-  }
+
+    document.getElementById('totalPrice').textContent = `Total Price: NTD${totalPrice}`;
+}
+
+// Function to calculate the days count based on selections
+function calculateDaysCount() {
+    const rentDateValue = document.getElementById('rentDate').value;
+    const returnDateValue = document.getElementById('returnDate').value;
+    if (!rentDateValue || !returnDateValue) {
+        return 0; // Return 0 days if dates are not set
+    }
+    const rentDate = new Date(rentDateValue);
+    const returnDate = new Date(returnDateValue);
+    if (isNaN(rentDate.getTime()) || isNaN(returnDate.getTime())) {
+        return 0; // Return 0 days if dates are invalid
+    }
+    const timeDiff = returnDate.getTime() - rentDate.getTime();
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+}
+
+
+// Add event listeners for the date and time inputs
+document.getElementById('rentDate').addEventListener('change', () => {
+    calculateDays();
+    loadCartItems(); // Recalculate total price when dates change
+});
+document.getElementById('rentTime').addEventListener('change', () => {
+    calculateDays();
+    loadCartItems(); // Recalculate total price when dates change
+});
+document.getElementById('returnDate').addEventListener('change', () => {
+    calculateDays();
+    loadCartItems(); // Recalculate total price when dates change
+});
+document.getElementById('returnTime').addEventListener('change', () => {
+    calculateDays();
+    loadCartItems(); // Recalculate total price when dates change
+});
+
+// Call the function to load items and calculate total price on page load
+window.addEventListener('DOMContentLoaded', () => {
+    calculateDays();
+    loadCartItems();
+});
   
     // Function to delete an item from the cart
     function deleteItem(productName) {

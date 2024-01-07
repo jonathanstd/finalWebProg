@@ -12,6 +12,10 @@ from django.contrib import messages
 from .models import Order
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
+from django.views.decorators.http import require_http_methods
 
 def register(request):
     if request.method == 'POST':
@@ -116,34 +120,6 @@ def cart_view(request):
     total_price = calculate_total_price(cart)
     return render(request, 'cart.html', {'cart': cart, 'total_price': total_price})
 
-def account_view(request):
-    if request.method == 'POST':
-        action = request.POST.get('action')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        if action == 'register':
-            # Registration logic
-            if User.objects.filter(username=username).exists():
-                messages.error(request, 'Username already exists')
-                return render(request, 'account.html', {'error': 'Username already exists'})
-            user = User.objects.create_user(username=username, password=password)
-            user.save()
-            profile = UserProfile(user=user)
-            profile.save()
-            messages.success(request, 'Account created successfully')
-
-        elif action == 'login':
-            # Login logic
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                auth_login(request, user)
-                return redirect('member')
-            else:
-                return render(request, 'member.html', {'error': 'Invalid username or password.'})
-
-    return render(request, 'account.html')
-
 def member_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -158,14 +134,6 @@ def member_view(request):
             return render(request, 'account.html', context)
     else:
         return render(request, 'member.html')
-
-def orders_view(request):
-    # Query your orders data here, for example:
-    user_orders = Order.objects.filter(user=request.user)
-    user_orders = Order.objects.filter(user=request.user)
-    return render(request, 'orders.html', {'user_orders': user_orders})
-    context = {'user_orders': user_orders}
-    return render(request, 'orders.html', context)
 
 def create_order(request):
     if request.method == 'POST':
@@ -233,3 +201,44 @@ def order_detail(request, order_id):
 
 def check_login_status(request):
     return JsonResponse({'is_logged_in': request.user.is_authenticated})
+
+@login_required
+def orders_view(request):
+    # This view now requires the user to be logged in to access
+    user_orders = Order.objects.filter(user=request.user)
+    return render(request, 'orders.html', {'user_orders': user_orders})
+
+@require_http_methods(["GET", "POST"])
+def account_view(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if action == 'register':
+            # Handle registration
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+            else:
+                user = User.objects.create_user(username=username, password=password)
+                user.save()
+                messages.success(request, 'Account created successfully')
+                auth_login(request, user)  # Log the user in
+                return redirect('home')
+
+        elif action == 'login':
+            # Handle login
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                return redirect('orders')
+            else:
+                messages.error(request, 'Invalid username or password.')
+
+    # Display the account page for GET requests or if login/registration fails
+    return render(request, 'account.html')
+
+def logout_view(request):
+    # Handle logout
+    auth_logout(request)
+    return redirect('home')

@@ -13,23 +13,23 @@
     background-color: #000459;
     overflow: hidden;
     border-radius: 0.5em;
-  }
+}
   
-  .navbar a {
+.navbar a {
     float: left;
     display: block;
     color: rgb(255, 255, 255);
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-  }
+}
 
-  .dropdown {
+.dropdown {
     float: left;
     overflow: hidden;
-  }
+}
 
-  .dropdown .dropbtn {
+.dropdown .dropbtn {
     cursor: pointer;
     font-size: 16px;    
     border: none;
@@ -39,39 +39,39 @@
     background-color: inherit;
     font-family: inherit;
     margin: 0;
-  }
+}
 
-  .navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover, .dropdown:hover .dropbtn {
     background-color: rgb(0, 0, 0);
-  }
+}
 
-  .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-  }
+}
 
-  .dropdown-content a {
+.dropdown-content a {
     float: none;
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     text-align: left;
-  }
+}
 
-  .dropdown-content a:hover {
+.dropdown-content a:hover {
     background-color: #ddd;
-  }
+}
 
-  .dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content {
     display: block;
-  }
+}
 
-  .shop-name {
+.shop-name {
   background-color: white;
   color: black;
   border-radius: 0.5em;
@@ -84,9 +84,9 @@
   box-shadow: 0 0 0 0 black;
   text-align: center;
   font-family: 'Poppins';
-  }
+}
 
-  .shop-name:hover:hover {
+.shop-name:hover:hover {
   transform: translateY(-1px) ;
   box-shadow: 2px 3px 0 0 black;
 };
@@ -96,32 +96,48 @@
   box-shadow: 0 0 0 0 black;
 };
   
-  .login, .cart {
+.login, .cart {
     float: right;
-  }
+}
 
   /*end of navbar*/
 
 /* Container styles */
-.container {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
-/* Form styles */
 .form-box {
-  border: 1px solid #ddd;
-  padding: 20px;
-  width: 40%;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
 }
-
-/* Input styles */
-input[type="text"],
-input[type="password"] {
-  width: 60%;
-  padding: 10px;
-  margin: 10px 0;
+.form-box label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-box input[type="text"],
+.form-box input[type="password"] {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+.form-box input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #000;
+    color: white;
+    cursor: pointer;
+}
+.form-box input[type="submit"]:hover {
+    background-color: #333;
 }
 
 /* Button styles */
@@ -160,26 +176,33 @@ button {
         </div>
       </div>
 
-<div class="container">
-  <!-- Login Box -->
-
-  <form method="post" action="{% url 'account' %}">
+<div class="form-container">
+  <!-- Login Form -->
+  <div class="form-box">
+    <h2>Login</h2>
+    <form method="post" action="{% url 'account' %}">
     {% csrf_token %}
     <input type="hidden" name="action" value="login">
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <input type="submit" value="Login">
-</form>
-  
-  <!-- Register Box -->
-  <form method="post" action="{% url 'account' %}">
-    {% csrf_token %}
-    <input type="hidden" name="action" value="register">
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <!-- Add other fields as necessary -->
-    <input type="submit" value="Register">
-</form>
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <input type="submit" value="Login">
+    </form>
+  </div>
+
+
+  <div class="form-box">
+    <h2>Register</h2>
+    <!-- Register Box -->
+    <form method="post" action="{% url 'account' %}">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="register">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <!-- Add other fields as necessary -->
+      <input type="submit" value="Register">
+    </form>
+  </div>
+</div>
 
 <script>
     // Mock database object for demonstration purposes

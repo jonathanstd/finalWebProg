@@ -3,42 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
 <title>Camera Rental - Canon Cameras</title>
 <style>
 
-  .navbar {
-    background-color: #4CAF50; /* Green */
+.navbar {
+    background-color: #000459;
     overflow: hidden;
+    border-radius: 0.5em;
   }
   
-  .navbar a, .dropbtn {
+  .navbar a {
     float: left;
     display: block;
-    color: white;
+    color: rgb(255, 255, 255);
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-    background-color: #4CAF50; /* Green */
   }
 
-  .navbar a:hover, .dropbtn:hover {
-    background-color: darkgreen;
+  .dropdown {
+    float: left;
+    overflow: hidden;
   }
-  
-  .navbar .login, .navbar .cart {
-    float: right;
+
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: rgb(255, 255, 255);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgb(0, 0, 0);
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
   }
 
   .shop-name {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    padding: 10px 20px;
-    cursor: pointer;
-    text-align: center;
+  background-color: white;
+  color: black;
+  border-radius: 0.5em;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid black;
+  box-shadow: 0 0 0 0 black;
+  text-align: center;
+  font-family: 'Poppins';
   }
 
-  .shop-name:hover {
-    background-color: rgb(123, 123, 123);
+  .shop-name:hover:hover {
+  transform: translateY(-1px) ;
+  box-shadow: 2px 3px 0 0 black;
+};
+
+.shop-name:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+};
+  
+  .login, .cart {
+    float: right;
   }
 
   .product-container {
@@ -71,21 +128,43 @@
   }
 
   .rent-button {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
+ padding: 10px 25px;
+ border: unset;
+ border-radius: 15px;
+ color: #212121;
+ z-index: 1;
+ background: #e8e8e8;
+ position: relative;
+ font-weight: 1000;
+ font-size: 17px;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms;
+ overflow: hidden;
+}
 
-  .rent-button:hover {
-    background-color: #98fb98; /* Lighter green */
-  }
+.rent-button::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: #212121;
+ z-index: -1;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms
+}
+
+.rent-button:hover {
+ color: #e8e8e8;
+}
+
+.rent-button:hover::before {
+ width: 100%;
+}
 
   /* Responsive adjustments */
   @media (max-width: 768px) {
@@ -99,73 +178,11 @@
       width: 100%; /* 1 item per row on very small screens */
     }
   }
-
-  .navbar {
-    /*background-color: #4CAF50; /* Green */
-    overflow: hidden;
-  }
-  
-  .navbar a {
-    float: left;
-    display: block;
-    color: rgb(0, 0, 0);
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-  }
-
-  .dropdown {
-    float: left;
-    overflow: hidden;
-  }
-
-  .dropdown .dropbtn {
-    cursor: pointer;
-    font-size: 16px;    
-    border: none;
-    outline: none;
-    color: rgb(0, 0, 0);
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-  }
-
-  .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: rgb(154, 156, 154);
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  .dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
 </style>
 </head>
 <body>
   <div class="shopname">
-    <div class="shop-name" onclick="location.href='/'">My Camera Rent Web Name</div>
-
+    <div class="shop-name" onclick="location.href='/'">Shuli Camera Rent</div>
   <div class="navbar">
     <div class="dropdown">
       <button class="dropbtn">Camera</button>
@@ -192,22 +209,22 @@
 <div class="product-container">
   <!-- Repeat this block for each product -->
   <div class="product">
-    <img src="path_to_canon_r5_image.jpg" alt="Canon R5">
-    <div class="product-name">R5</div>
-    <div class="product-price">¥1,300</div>
-    <button class="rent-button" onclick="addToCart('R5', 1300)">Rent</button>
+    <img src="../../static/img/fe1635.jpeg" alt="Sony FE 16-35mm">
+    <div class="product-name">Sony FE 16-35mm</div>
+    <div class="product-price">NTD1,300</div>
+    <button class="rent-button" onclick="addToCart('Sony FE 16-35mm', 1300); loadCart();">Rent</button>
   </div>
   <div class="product">
-    <img src="path_to_canon_r5_image.jpg" alt="Sony a7">
-    <div class="product-name">a7</div>
-    <div class="product-price">¥1,300</div>
-    <button class="rent-button" onclick="addToCart('a7', 1300)">Rent</button>
+    <img src="../../static/img/fe24.jpeg" alt="Sony FE 24mm">
+    <div class="product-name">Sony FE 24mm</div>
+    <div class="product-price">NTD1,300</div>
+    <button class="rent-button" onclick="addToCart('Sony FE 24mm', 1300); loadCart();">Rent</button>
   </div>
   <div class="product">
-    <img src="path_to_canon_r5_image.jpg" alt="Nikon">
-    <div class="product-name">Nik</div>
-    <div class="product-price">¥1,300</div>
-    <button class="rent-button" onclick="addToCart('nik', 1300)">Rent</button>
+    <img src="../../static/img/fe2470mm.jpeg" alt="Sony FE 24-70mm">
+    <div class="product-name">Sony FE 24-70mm</div>
+    <div class="product-price">NTD1,300</div>
+    <button class="rent-button" onclick="addToCart('Sony FE 24-70mm', 1300); loadCart();">Rent</button>
   </div>
   <!-- Repeat ends -->
 </div>
@@ -237,32 +254,26 @@
 
 
   // Function to load and display the cart items
-  function loadCartItems() {
-    const cartItemsContainer = document.getElementById('cartItemsContainer');
-    const cart = JSON.parse(localStorage.getItem('cart')) || {};
-    cartItemsContainer.innerHTML = ''; // Clear the container
+  function loadCart() {
+  // Retrieve the cart data from localStorage
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
 
-    // Check if the cart is empty
-    if (Object.keys(cart).length === 0) {
-        cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>'; // Display a message or leave it as an empty string
-    } else {
-        // Create HTML for each cart item
-        for (const [productName, productDetails] of Object.entries(cart)) {
-            const cartItemHtml = `
-                <div class="cart-item">
-                    <button class="delete-button" onclick="deleteItem('${productName}')">delete</button>
-                    Gear name: ${productName} <br>
-                    Quantity: <input type="number" value="${productDetails.quantity}" min="1" onchange="updateQuantity('${productName}', this.value)">
-                    <br>
-                    Price: ¥${productDetails.price * productDetails.quantity}
-                </div>
-            `;
-            cartItemsContainer.innerHTML += cartItemHtml;
-        }
-    }
+  // Get the element where you want to display the cart items
+  const cartList = document.getElementById('cart-list'); // Replace 'cart-list' with your actual element ID
+
+  // Clear the existing cart items (if any)
+  cartList.innerHTML = '';
+
+  // Loop through the cart items and add them to the cart list
+  for (const productName in cart) {
+    const product = cart[productName];
+    const listItem = document.createElement('li');
+    listItem.textContent = `${productName}: ${product.quantity} x ¥${product.price} = ¥${product.quantity * product.price}`;
+
+    // Add the list item to the cart list
+    cartList.appendChild(listItem);
+  }
 }
-
-
 
 
   // Call the loadCart function to load and display cart items when the cart page loads

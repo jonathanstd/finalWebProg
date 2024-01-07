@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
 <title>Cart - Camera Rental</title>
 <link rel="stylesheet" href="/path_to_your_css_file.css"> <!-- Link your existing CSS file here -->
 <style>
@@ -99,19 +100,19 @@
   .date-time-container {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
   }
 
   .date-time-box {
-    padding: 10px;
-    margin: 0 5px;
-    background-color: orange;
+    padding: 20px;
+    margin: 5px 5px;
+    background-color: #D7B377;
     /* Additional styling */
   }
 
   .days-count {
     padding: 10px;
-    background-color: purple;
+    background-color: #8F754F;
     color: white;
     /* Additional styling */
   }
@@ -136,32 +137,61 @@
   }
 
   .total-price {
-    background-color: purple;
+    background-color: #8F754F;
     color: white;
     padding: 10px;
     /* Additional styling */
   }
 
   .submit-button {
-    background-color: green;
-    color: white;
-    padding: 20px;
-    cursor: pointer;
-    /* Additional styling */
-  }
+margin: 10px;
+ padding: 10px 25px;
+ border: unset;
+ border-radius: 15px;
+ color: #212121;
+ z-index: 1;
+ background: #e8e8e8;
+ position: relative;
+ font-weight: 1000;
+ font-size: 17px;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms;
+ overflow: hidden;
+}
 
-  .submit-button:hover {
-    background-color: #98fb98; /* Lighter green */
-  }
+.submit-button::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: #212121;
+ z-index: -1;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms
+}
+
+.submit-button:hover {
+ color: #e8e8e8;
+}
+
+.submit-button:hover::before {
+ width: 100%;
+}
 
   /* ... Any additional custom styles ... */
 </style>
 
 
+
 </head>
 <body>
     <div class="shopname">
-        <div class="shop-name" onclick="location.href='/'">My Camera Rent Web Name</div>
+        <div class="shop-name" onclick="location.href='/'">Shuli Camera Rent</div>
     
       <div class="navbar">
         <div class="dropdown">
@@ -228,7 +258,7 @@
     // Function to load and display the cart items
     function loadCartItems() {
     const cartItemsContainer = document.getElementById('cartItemsContainer');
-    const cart = JSON.parse('{{ cart|escapejs }}');
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
     cartItemsContainer.innerHTML = '';
 
     Object.entries(cart).forEach(([productName, productDetails]) => {
@@ -237,7 +267,7 @@
           <button class="delete-button" onclick="deleteItem('${productName}')">delete</button>
           Gear name: ${productName} <br>
           Quantity: ${productDetails.quantity} <br>
-          Price: ¥${productDetails.price}
+          Price: NTD${productDetails.price}
         </div>
       `;
       cartItemsContainer.innerHTML += cartItemHtml;
@@ -266,36 +296,51 @@
   
     // Function to submit the order
     function submitOrder() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || {};
-
-    // Create an order object to send to the server
-    const orderData = {
-        items: Object.keys(cart).map(productName => ({
-            name: productName,
-            quantity: cart[productName].quantity,
-            price: cart[productName].price
-        })),
-        total_price: calculateTotalPrice(cart),
-    };
-
-    // Send the order data to the server using a POST request
-    fetch('/create_order/', {
+  // Check if the user is logged in
+  fetch('/check_login_status/')
+  .then(response => response.json())
+  .then(data => {
+    if (data.is_logged_in) {
+      // User is logged in, proceed to submit the order
+      const cart = JSON.parse(localStorage.getItem('cart')) || {};
+      fetch('/submit_order/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
         },
-        body: JSON.stringify(orderData),
-    })
-    .then(response => response.json())
-    .then(data => {
+        body: JSON.stringify({cart: cart}),
+      })
+      .then(response => response.json())
+      .then(data => {
         if (data.success) {
-            // Redirect to the order confirmation page or handle as needed
-            location.href = '/camera-rental/orders/';
+          window.location.href = data.order_url;
         } else {
-            // Handle any errors from the server
-            alert('Error submitting the order. Please try again.');
+          alert('There was an error submitting your order. Please try again.');
         }
-    });
+      });
+    } else {
+      // User is not logged in, redirect to account page
+      window.location.href = '/camera-rental/account';
+    }
+  });
+}
+
+
+// Utility function to get the CSRF token
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
 }
   
     // Function to calculate the days count based on selections

@@ -1,7 +1,7 @@
 import contextlib
 import json
 from django.shortcuts import render, redirect
-from .models import Product, models
+from .models import Order,OrderItem,Product, models
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -10,6 +10,8 @@ from django.contrib.auth import login as auth_login
 from .models import UserProfile
 from django.contrib import messages
 from .models import Order
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 def register(request):
     if request.method == 'POST':
@@ -160,7 +162,8 @@ def member_view(request):
 def orders_view(request):
     # Query your orders data here, for example:
     user_orders = Order.objects.filter(user=request.user)
-
+    user_orders = Order.objects.filter(user=request.user)
+    return render(request, 'orders.html', {'user_orders': user_orders})
     context = {'user_orders': user_orders}
     return render(request, 'orders.html', context)
 
@@ -198,3 +201,35 @@ def create_order(request):
             # Handle any errors that may occur during order creation
             response_data = {'success': False, 'message': str(e)}
             return JsonResponse(response_data, status=400)
+        
+def submit_order(request):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('You must be logged in to perform this action.')
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        cart = data.get('cart')
+        order = Order.objects.create(user=request.user)
+        
+        for item_name, item_data in cart.items():
+            product = get_object_or_404(Product, name=item_name)
+            OrderItem.objects.create(
+                order=order,
+                product=product,
+                quantity=item_data['quantity'],
+                price=item_data['price']
+            )
+
+        return JsonResponse({
+            'success': True,
+            'order_url': f'/orders/{order.id}/'  # Construct the URL to the order confirmation page
+        })
+
+    return JsonResponse({'success': False})
+
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'order.html', {'order': order})
+
+def check_login_status(request):
+    return JsonResponse({'is_logged_in': request.user.is_authenticated})

@@ -14,6 +14,9 @@ urlpatterns = [
     path('member/', views.member_view, name='member'),
     path('orders/', views.orders_view, name='orders'),
     path('create_order/', views.create_order, name='create_order'),
+    path('submit_order/', views.submit_order, name='submit_order'),
+    path('orders/<int:order_id>/', views.order_detail, name='order_detail'),
+    path('check_login_status/', views.check_login_status, name='check_login_status'),
     
     # Add more URL patterns for other views here
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -4,43 +4,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
 <title>Login/Register - Camera Rental</title>
 <!-- Add your CSS file link here -->
 <style>
 /*navbar*/
 .navbar {
-    background-color: #4CAF50; /* Green */
+    background-color: #000459;
     overflow: hidden;
+    border-radius: 0.5em;
   }
   
-  .navbar a, .dropbtn {
+  .navbar a {
     float: left;
     display: block;
-    color: white;
+    color: rgb(255, 255, 255);
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-    background-color: #4CAF50; /* Green */
-  }
-
-  .navbar a:hover, .dropbtn:hover {
-    background-color: darkgreen;
-  }
-  
-  .navbar .login, .navbar .cart {
-    float: right;
-  }
-
-  .shop-name {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    padding: 10px 20px;
-    cursor: pointer;
-    text-align: center;
-  }
-
-  .shop-name:hover {
-    background-color: rgb(123, 123, 123);
   }
 
   .dropdown {
@@ -53,7 +34,7 @@
     font-size: 16px;    
     border: none;
     outline: none;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     padding: 14px 16px;
     background-color: inherit;
     font-family: inherit;
@@ -61,7 +42,7 @@
   }
 
   .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: rgb(154, 156, 154);
+    background-color: rgb(0, 0, 0);
   }
 
   .dropdown-content {
@@ -88,6 +69,35 @@
 
   .dropdown:hover .dropdown-content {
     display: block;
+  }
+
+  .shop-name {
+  background-color: white;
+  color: black;
+  border-radius: 0.5em;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid black;
+  box-shadow: 0 0 0 0 black;
+  text-align: center;
+  font-family: 'Poppins';
+  }
+
+  .shop-name:hover:hover {
+  transform: translateY(-1px) ;
+  box-shadow: 2px 3px 0 0 black;
+};
+
+.shop-name:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+};
+  
+  .login, .cart {
+    float: right;
   }
 
   /*end of navbar*/
@@ -125,7 +135,7 @@ button {
 </head>
 <body>
     <div class="shopname">
-        <div class="shop-name" onclick="location.href='/'">My Camera Rent Web Name</div>
+        <div class="shop-name" onclick="location.href='/'">Shuli Camera Rent</div>
     
       <div class="navbar">
         <div class="dropdown">

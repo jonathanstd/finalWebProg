@@ -3,112 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
 <title>Camera Rental - Canon Cameras</title>
 <style>
 
-  .navbar {
-    background-color: #4CAF50; /* Green */
+.navbar {
+    background-color: #000459;
     overflow: hidden;
-  }
-  
-  .navbar a, .dropbtn {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-    background-color: #4CAF50; /* Green */
-  }
-
-  .navbar a:hover, .dropbtn:hover {
-    background-color: darkgreen;
-  }
-  
-  .navbar .login, .navbar .cart {
-    float: right;
-  }
-
-  .shop-name {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    padding: 10px 20px;
-    cursor: pointer;
-    text-align: center;
-  }
-
-  .shop-name:hover {
-    background-color: rgb(123, 123, 123);
-  }
-
-  .product-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 20px;
-  }
-
-  .product {
-    border: solid 1px #ddd;
-    margin: 10px;
-    padding: 20px;
-    text-align: center;
-    width: calc(25% - 20px); /* Adjust width to fit 4 items per row */
-  }
-
-  .product img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .product-name {
-    margin: 10px 0;
-  }
-
-  .product-price {
-    margin-bottom: 20px;
-    color: grey;
-  }
-
-  .rent-button {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-
-  .rent-button:hover {
-    background-color: #98fb98; /* Lighter green */
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .product {
-      width: calc(50% - 20px); /* 2 items per row on smaller screens */
-    }
-  }
-
-  @media (max-width: 480px) {
-    .product {
-      width: 100%; /* 1 item per row on very small screens */
-    }
-  }
-
-  .navbar {
-    /*background-color: #4CAF50; /* Green */
-    overflow: hidden;
+    border-radius: 0.5em;
   }
   
   .navbar a {
     float: left;
     display: block;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
@@ -124,7 +32,7 @@
     font-size: 16px;    
     border: none;
     outline: none;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     padding: 14px 16px;
     background-color: inherit;
     font-family: inherit;
@@ -132,7 +40,7 @@
   }
 
   .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: rgb(154, 156, 154);
+    background-color: rgb(0, 0, 0);
   }
 
   .dropdown-content {
@@ -160,11 +68,121 @@
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+  .shop-name {
+  background-color: white;
+  color: black;
+  border-radius: 0.5em;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid black;
+  box-shadow: 0 0 0 0 black;
+  text-align: center;
+  font-family: 'Poppins';
+  }
+
+  .shop-name:hover:hover {
+  transform: translateY(-1px) ;
+  box-shadow: 2px 3px 0 0 black;
+};
+
+.shop-name:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+};
+  
+  .login, .cart {
+    float: right;
+  }
+
+  .product-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .product {
+    border: solid 1px #ddd;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    width: calc(25% - 20px); /* Adjust width to fit 4 items per row */
+  }
+
+  .product img {
+    width: 80%;
+
+  }
+
+  .product-name {
+    margin: 10px 0;
+  }
+
+  .product-price {
+    margin-bottom: 20px;
+    color: grey;
+  }
+
+  .rent-button {
+ padding: 10px 25px;
+ border: unset;
+ border-radius: 15px;
+ color: #212121;
+ z-index: 1;
+ background: #e8e8e8;
+ position: relative;
+ font-weight: 1000;
+ font-size: 17px;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms;
+ overflow: hidden;
+}
+
+.rent-button::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: #212121;
+ z-index: -1;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms
+}
+
+.rent-button:hover {
+ color: #e8e8e8;
+}
+
+.rent-button:hover::before {
+ width: 100%;
+}
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .product {
+      width: calc(50% - 20px); /* 2 items per row on smaller screens */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .product {
+      width: 100%; /* 1 item per row on very small screens */
+    }
+  }
 </style>
 </head>
 <body>
   <div class="shopname">
-    <div class="shop-name" onclick="location.href='/'">My Camera Rent Web Name</div>
+    <div class="shop-name" onclick="location.href='/'">Shuli Camera Rent</div>
 
   <div class="navbar">
     <div class="dropdown">
@@ -192,22 +210,22 @@
 <div class="product-container">
   <!-- Repeat this block for each product -->
   <div class="product">
-    <img src="path_to_canon_r5_image.jpg" alt="RF 24-70mm f/2.8">
-    <div class="product-name">RF 24-70mm f/2.8</div>
-    <div class="product-price">¥1,500</div>
-    <button class="rent-button" onclick="addToCart('RF 24-70mm f/2.8', 1500)">Rent</button>
+    <img src="../../static/img/c2470ii.jpeg" alt="c2470ii">
+    <div class="product-name">Canon RF 24-70mm</div>
+    <div class="product-price">NTD1,400</div>
+    <button class="rent-button" onclick="addToCart('Canon RF 24-70mm', 1400); loadCart();">Rent</button>
   </div>
   <div class="product">
-    <img src="path_to_canon_r5_image.jpg" alt="RF 24-105mm f/4">
-    <div class="product-name">RF 24-105mm f/4</div>
-    <div class="product-price">¥1,500</div>
-    <button class="rent-button" onclick="addToCart('RF 24-105mm f/4', 1500)">Rent</button>
+    <img src="../../static/img/c24105.jpeg" alt="c24105">
+    <div class="product-name">Canon RF 24-105mm</div>
+    <div class="product-price">NTD1,300</div>
+    <button class="rent-button" onclick="addToCart('Canon RF 24-105mm', 1300); loadCart();">Rent</button>
   </div>
   <div class="product">
-    <img src="path_to_canon_r5_image.jpg" alt="EF 18-55 f/3.6-5.6">
-    <div class="product-name">EF 18-55 f/3.6-5.6</div>
-    <div class="product-price">¥900</div>
-    <button class="rent-button" onclick="addToCart('EF 18-55 f/3.6-5.6', 900)">Rent</button>
+    <img src="../../static/img//c1855.png" alt="c1855">
+    <div class="product-name">Canon EF 18-55mm</div>
+    <div class="product-price">NTD200</div>
+    <button class="rent-button" onclick="addToCart('Canon EF 18-55mm', 200); loadCart();">Rent</button>
   </div>
   <!-- Repeat ends -->
 </div>
@@ -251,7 +269,7 @@
   for (const productName in cart) {
     const product = cart[productName];
     const listItem = document.createElement('li');
-    listItem.textContent = `${productName}: ${product.quantity} x ¥${product.price} = ¥${product.quantity * product.price}`;
+    listItem.textContent = `${productName}: ${product.quantity} x NTD${product.price} = NTD${product.quantity * product.price}`;
 
     // Add the list item to the cart list
     cartList.appendChild(listItem);

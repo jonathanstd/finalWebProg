@@ -122,7 +122,8 @@ def cart_view(request):
 
 def member_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        context = {'username': request.user.get_username()}
+        return render(request, 'member.html', {'username': request.user.username})
         password = request.POST.get('password')
         
         user = authenticate(request, username=username, password=password)
@@ -231,7 +232,7 @@ def account_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                return redirect('orders')
+                return redirect('member')
             else:
                 messages.error(request, 'Invalid username or password.')
 
@@ -242,3 +243,8 @@ def logout_view(request):
     # Handle logout
     auth_logout(request)
     return redirect('home')
+
+def get_orders_for_user(user):
+    # Fetch orders for the given user
+    orders = Order.objects.filter(user=user)
+    return orders
